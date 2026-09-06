@@ -1,6 +1,6 @@
 {
   "name": "lazada-mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "MCP server for shopping RedMart groceries on your own Lazada account",
   "type": "module",

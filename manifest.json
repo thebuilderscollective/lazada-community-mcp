@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "lazada-mcp",
   "display_name": "Lazada RedMart",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Compare RedMart groceries and manage your own Lazada cart with explicit checkout approval.",
   "long_description": "Independent community preview. Chrome is required. Sign in once in the visible browser; routine shopping then runs headlessly. Shopping memory stays on this computer. Every order requires a fresh exact checkout review and approval. No passwords or OTPs in chat.",
   "author": {

@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
+import { bundleNode } from "./bundle-node.mjs";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
 const manifest = JSON.parse(await readFile(join(root, "manifest.json"), "utf8"));
@@ -13,6 +14,7 @@ const destination = resolve(
   process.argv[2] ?? `lazada-mcp-${pkg.version}.mcpb`,
 );
 const stage = await mkdtemp(join(tmpdir(), "lazada-desktop-package-"));
+const runtimeDownloads = await mkdtemp(join(tmpdir(), "lazada-node-package-"));
 const run = (command, args, cwd) =>
   new Promise((resolve, reject) => {
     const child = spawn(command, args, { cwd, stdio: "inherit", shell: false });
@@ -46,6 +48,7 @@ try {
   );
   // No install-time compiler or browser download. Remove npm command shims; runtime uses imports.
   await rm(join(stage, "node_modules/.bin"), { recursive: true, force: true });
+  await bundleNode(stage, runtimeDownloads);
   async function check(dir) {
     for (const name of await readdir(dir)) {
       const path = join(dir, name),
@@ -64,4 +67,5 @@ try {
   console.log(`Desktop bundle: ${destination}`);
 } finally {
   await rm(stage, { recursive: true, force: true });
+  await rm(runtimeDownloads, { recursive: true, force: true });
 }

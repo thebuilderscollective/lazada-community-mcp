@@ -101,11 +101,11 @@ Claude Desktop may need a full quit/reopen. [Troubleshooting →](SETUP.md#every
 <!-- health:start -->
 | Check | Last reported result | Last checked |
 |---|---|---|
-| Isolated smoke suite | ✅ Passed · 43/44 passed; 1 skipped | 2026-09-06 05:10 UTC |
+| Isolated smoke suite | ✅ Passed · 44/45 passed; 1 skipped | 2026-09-06 05:29 UTC |
 | Live Lazada browser reads | ✅ Passed · 12/12 checks | 2026-09-05 18:57 UTC |
 | Codex | 🟡 Partial · Installed and enabled; MCP verified, full shopping conversation pending | 2026-09-05 17:48 UTC |
 | Claude Code | ✅ Passed · Real prompt: login reuse + shortlist + preference questions | 2026-09-05 17:41 UTC |
-| Claude Desktop | 🟡 Partial · Old connector removed for owner reinstall; new bundle conversation test pending | 2026-09-06 04:48 UTC |
+| Claude Desktop | 🟡 Partial · 1.1.1 installed: cold start, session reuse and live search passed; search relevance and visual comparison still need review | 2026-09-06 05:35 UTC |
 | Grok | 🟡 Partial · Old connector uninstalled in app; owner reinstall and visual test pending | 2026-09-06 04:48 UTC |
 | ChatGPT Work cloud | ⚪ Not verified · Host integration pending | Not run |
 

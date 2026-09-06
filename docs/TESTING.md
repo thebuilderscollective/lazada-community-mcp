@@ -130,14 +130,18 @@ Run this separately in Codex, Claude Code, and Grok; do not infer one client's r
 
 ## Desktop bundle
 
-Maintainers run `npm run package:desktop -- /tmp/lazada-mcp-1.1.0.mcpb`. This builds the runtime, copies
+Maintainers run `npm run package:desktop -- /tmp/lazada-mcp-1.1.1.mcpb`. This builds the runtime, copies
 a fixed allowlist into a temporary directory, installs lockfile-pinned production dependencies there,
+includes checksum-pinned official Node 22 binaries and their licenses for both Mac architectures,
 validates/packs with the official MCPB CLI, and removes staging. No browser or session is bundled.
 The bundle targets macOS; runtime support for Linux does not imply Claude Desktop Linux support.
 
 Verify the manifest, unpack the exact archive, and launch its configured entry point against a disposable
 `LAZADA_DATA_DIR` from another working directory. Check the 25 tools and inline icon. A successful package
 handshake is distinct from verification of the Desktop installation dialog and a real conversation.
+Always test a cold start through Claude's built-in runtime as well: a system-Node handshake missed
+the 1.1.0 Electron helper relaunch bug. Claude disables Electron's RunAsNode fuse, so an environment
+flag is insufficient. The Desktop service must launch the bundled standalone executable.
 On 2026-09-05, the exact bundle passed that unpacked handshake (25 tools, inline icon, background mode).
 Claude Desktop opened its installation dialog with the new basket icon and reported all requirements met.
 The final install confirmation is pending explicit approval of Claude's local-extension access warning;
@@ -187,3 +191,22 @@ The 1.1.0 release verification also runs real npm against the prebuilt archive i
 root. This caught a positional-archive invocation being treated as an executable; the installer now
 uses explicit `--package=...` and the `lazada-mcp` binary. Mocked argument tests alone do not prove npm
 package resolution. The real check prints configuration only and never registers a live client.
+
+## Claude Desktop 1.1.1 startup verification
+
+On 2026-09-06, upgraded the installed extension through Claude's native Update/Install dialogs.
+Disabled the extension, stopped the idle shared service, and enabled it again to test a cold start.
+The new daemon came from the installed extension and ran its packaged Apple Silicon Node binary;
+Claude Developer settings reported Running and initialization plus tool/resource discovery succeeded.
+No Keychain approval was needed for the corrected startup. Intel Node is bundled and checksum-verified,
+but an Intel Mac execution test remains pending.
+
+A real Claude Desktop conversation then called connection diagnostics, session check and product search.
+It reported version 1.1.1, a signed-in session and three live product results. No login flow, cart mutation
+or ordering call was requested or made. Search relevance remains imperfect: the Oatly oat milk query
+also returned other brands and a dairy smoothie. This verifies transport and browser reads, not exact
+brand matching or complete shopping/visual-comparison behavior.
+
+The isolated suite passed 44 of 45 checks with one optional browser test skipped. The regression guard
+checks that Electron hosts select only the packaged runtime and fail with a reinstall instruction if it
+is absent, instead of falling back to the GUI helper.

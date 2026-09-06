@@ -53,17 +53,23 @@ are separate sessions. The service shares the live account/cart, not an isolated
 
 ## Claude Desktop chat
 
-For a new macOS Desktop installation, run `curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop`. It downloads and verifies the bundle, opens Claude, and leaves the native installation approval to you. It bundles production dependencies and uses the Node runtime supplied by Claude; Chrome must be installed. It is an unsigned community preview, not a directory-listed extension.
+For a new macOS Desktop installation, run `curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop`. It downloads and verifies the bundle, opens Claude, and leaves the native installation approval to you. It bundles production dependencies and standalone Node runtimes for Apple Silicon and Intel Macs; Chrome must be installed. It is an unsigned community preview, not a directory-listed extension.
 
 When replacing the existing local-dev registration, have your assistant back up the configuration and remove only its `mcpServers.lazada` entry before enabling the bundle, then fully quit/reopen Claude. Keep other servers and your saved Lazada session. Do not enable both registrations.
 
 `setup claude` registers **Claude Code**, not Claude Desktop chat. For the manual Desktop alternative, ask your assistant to
-run `npx --yes --package=./lazada-mcp-1.1.0.tgz lazada-mcp setup config` and merge the printed `lazada` entry into
+run `npx --yes --package=./lazada-mcp-1.1.1.tgz lazada-mcp setup config` and merge the printed `lazada` entry into
 `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, preserving other servers
 and any existing Lazada environment settings. Then fully quit Claude with **Cmd+Q** and reopen it.
 Ask it to check the Lazada connection and search for a product without changing your cart.
 
 ### Every tool says “Tool execution failed”
+
+**Desktop 1.1.0 startup bug:** if the extension disconnects immediately, or a Claude Helper Keychain
+prompt appears during startup, update to **1.1.1 or later** using the same installer command above.
+Version 1.1.0 mistakenly relaunched Claude's Electron helper as the background server. Version 1.1.1
+uses a bundled standalone runtime. Granting Keychain access does not repair that crash; the plugin
+does not need your Mac password. Saved Lazada sign-in remains in place.
 
 If even **Diagnose Lazada Connection** fails, check **Settings → Desktop app → Developer → lazada**.
 The general Connectors page can still say “Connected” while Developer reports **Failed / Server disconnected**.

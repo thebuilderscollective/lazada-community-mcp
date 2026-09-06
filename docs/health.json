@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "automated": {
-    "checkedAt": "2026-09-06T05:10:10.067Z",
+    "checkedAt": "2026-09-06T05:29:30.480Z",
     "status": "passed",
-    "total": 44,
-    "passed": 43,
+    "total": 45,
+    "passed": 44,
     "failed": 0,
     "skipped": 1
   },
@@ -82,9 +82,9 @@
     {
       "name": "Claude Desktop",
       "status": "partial",
-      "checkedAt": "2026-09-06T04:48:25.217854+00:00",
-      "scope": "Old connector removed for owner reinstall; new bundle conversation test pending",
-      "evidence": "docs/TESTING.md#comparison-layout-and-reinstallation"
+      "checkedAt": "2026-09-06T05:35:00.247881+00:00",
+      "scope": "1.1.1 installed: cold start, session reuse and live search passed; search relevance and visual comparison still need review",
+      "evidence": "docs/TESTING.md#claude-desktop-111-startup-verification"
     },
     {
       "name": "Grok",

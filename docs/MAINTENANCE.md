@@ -1,5 +1,22 @@
 # Maintenance
 
+## Claude Desktop startup fix (1.1.1, 2026-09-06)
+
+Claude's built-in Node host is an Electron utility process. Relaunching `process.execPath`
+as the detached Lazada daemon in 1.1.0 instead started a GUI helper: the service log contained
+`Unable to find helper app`, while Claude's main log reported `Shared Lazada service did not start`.
+An unexpected Claude Safe Storage Keychain prompt accompanied the owner's failed startup.
+Claude disables Electron's RunAsNode fuse, so setting `ELECTRON_RUN_AS_NODE` is insufficient.
+The Desktop bundle now carries checksum-pinned official Node 22 binaries for both Mac architectures
+with their licenses. Electron-hosted clients explicitly select that standalone runtime; a missing
+binary produces an actionable reinstall error and never falls back to the GUI helper.
+Ordinary Node clients retain their current executable. The shared profile and service remain unchanged.
+
+Verified cold startup through the installed Claude 1.1.1 extension: Claude reports Running,
+initialization and tool/resource discovery succeed, and the daemon executable is the bundle's
+`runtime/darwin-arm64/node`. The original 1.1.0 package handshake used system Node and missed this.
+See [Electron's fuse documentation](https://www.electronjs.org/docs/latest/tutorial/fuses).
+
 
 Lazada rewrites its markup regularly and its search-page CSS classes are minified and rotate
 (`Bm3ON`, `RfADt`, …). This code therefore keys off stable hooks only: `data-qa-locator`,

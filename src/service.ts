@@ -18,6 +18,7 @@ import { config } from "./config.js";
 import { createMcpServer } from "./server.js";
 import { closeBrowser } from "./browser.js";
 import { SERVER_INFO } from "./version.js";
+import { daemonExecutable } from "./runtime.js";
 
 export const socketPath = join(config.dataDir, "service.sock");
 const lockPath = join(config.dataDir, "service.lock");
@@ -80,9 +81,10 @@ export async function ensureService(): Promise<Socket> {
     )
       throw e;
   }
+  const executable = daemonExecutable();
   const log = await open(join(config.dataDir, "service.log"), "a", 0o600);
   const child = spawn(
-    process.execPath,
+    executable,
     [fileURLToPath(new URL("./daemon.js", import.meta.url))],
     {
       detached: true,
