@@ -71,7 +71,7 @@ Command-line setup needs Node.js 22+ and Chrome. Fresh clones can use `node scri
 > **Assistant:** A comparison table followed by product-photo cards, with pack sizes, current prices, known unit prices, and purchase history.
 > It asks about missing quantity or quality before adding anything.
 
-*Illustrative flow; live products and prices vary. Visual choices appear in clients supporting MCP Apps.*
+*Illustrative flow; live products and prices vary. Visual choices appear in clients supporting MCP Apps. Use **Expand** for a larger comparison and **Collapse** to return to chat; fullscreen depends on the client.*
 
 | Ask for… | What you get |
 |---|---|
@@ -101,11 +101,11 @@ Claude Desktop may need a full quit/reopen. [Troubleshooting →](SETUP.md#every
 <!-- health:start -->
 | Check | Last reported result | Last checked |
 |---|---|---|
-| Isolated smoke suite | ✅ Passed · 44/45 passed; 1 skipped | 2026-09-06 05:29 UTC |
+| Isolated smoke suite | ✅ Passed · 46/46 passed; 0 skipped | 2026-09-06 14:47 UTC |
 | Live Lazada browser reads | ✅ Passed · 12/12 checks | 2026-09-05 18:57 UTC |
 | Codex | 🟡 Partial · Installed and enabled; MCP verified, full shopping conversation pending | 2026-09-05 17:48 UTC |
 | Claude Code | ✅ Passed · Real prompt: login reuse + shortlist + preference questions | 2026-09-05 17:41 UTC |
-| Claude Desktop | 🟡 Partial · 1.1.1 installed: cold start, session reuse and live search passed; search relevance and visual comparison still need review | 2026-09-06 05:35 UTC |
+| Claude Desktop | 🟡 Partial · 1.1.2: real photo comparison, fullscreen expand/collapse, session reuse and search verified; relevance still needs review | 2026-09-06 14:48 UTC |
 | Grok | 🟡 Partial · Old connector uninstalled in app; owner reinstall and visual test pending | 2026-09-06 04:48 UTC |
 | ChatGPT Work cloud | ⚪ Not verified · Host integration pending | Not run |
 

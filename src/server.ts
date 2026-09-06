@@ -668,9 +668,10 @@ export function createMcpServer(
   const server = new McpServer(SERVER_INFO, {
     instructions: SERVER_INSTRUCTIONS,
   });
-  server.registerResource(
-    "product-picker",
-    PRODUCT_PICKER_URI,
+  // Older conversations retain their resource URI after an extension update.
+  for (const uri of [PRODUCT_PICKER_URI, "ui://lazada-mcp/product-picker-v2.html"]) server.registerResource(
+    uri === PRODUCT_PICKER_URI ? "product-picker" : "product-picker-legacy",
+    uri,
     {
       title: "Grocery Choices",
       description: "Interactive shortlist comparison for MCP Apps clients.",
@@ -679,7 +680,7 @@ export function createMcpServer(
     async () => ({
       contents: [
         {
-          uri: PRODUCT_PICKER_URI,
+          uri,
           mimeType: "text/html;profile=mcp-app",
           text: productPickerHtml,
           _meta: { ui: { csp: { resourceDomains: ["https://*.slatic.net"] } } },

@@ -124,3 +124,15 @@ MCP arguments. No automatic headed/headless transition or explicit CAPTCHA hando
 browser/login code. Its manifest advertises an icon and its `.mcpb` provides a convenient Desktop install.
 Our implementation retains human-only sign-in, persistent profiles, global serialization, and exact checkout
 approval. No Blinkit code was copied. The icon is an original temporary basket, not an official trademark.
+
+## Picker height and display modes (1.1.2)
+
+The dependency-free picker previously sent neither `ui/notifications/size-changed` nor fullscreen
+capabilities, so Claude left long comparisons inside its short initial iframe. It now announces
+inline/fullscreen support, measures a bounded viewport, and honors host container constraints.
+A persistent Expand/Collapse control requests only advertised modes via `ui/request-display-mode`,
+respects the resulting mode, and follows host-context changes. Products scroll between the header
+and footer. The older v2 resource remains available for previous conversations.
+
+Verified against the [MCP Apps specification](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx)
+and in Claude Desktop with an eight-group live comparison. No cart mutation was made.

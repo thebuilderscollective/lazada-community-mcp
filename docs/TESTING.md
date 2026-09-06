@@ -210,3 +210,17 @@ brand matching or complete shopping/visual-comparison behavior.
 The isolated suite passed 44 of 45 checks with one optional browser test skipped. The regression guard
 checks that Electron hosts select only the packaged runtime and fail with a reinstall instruction if it
 is absent, instead of falling back to the GUI helper.
+
+## Picker sizing and fullscreen (1.1.2)
+
+Verified the native Claude Desktop update and a real eight-group comparison on 2026-09-06.
+Expand opened Claude's fullscreen surface with real product photos and tables; Collapse returned to
+the conversation. No products were selected or added during this display test. The previous shortlist
+had expired, so Claude rebuilt the same eight queries with unknown quantities before rendering.
+Search relevance remains a separate open limitation.
+
+The isolated suite passed all 46 checks with `LAZADA_TEST_CHROME` set, including both browser tests.
+The picker fixture starts with a 150px iframe, checks size notifications, native-host display-mode
+requests, selection/quantity preservation, host refusal, unsupported fullscreen, scrollable content,
+and absence of cart calls. Protocol coverage checks that the v2 resource address still resolves.
+Codex and Grok fullscreen behavior is not yet verified in those hosts.

@@ -26,7 +26,7 @@ test("stdio handshake exposes portable, richly-described tools without opening a
       { name: identity.name, version: identity.version },
       {
         name: "lazada-mcp",
-        version: "1.1.1",
+        version: "1.1.2",
       },
     );
     assert.equal(identity.icons[0].mimeType, "image/svg+xml");
@@ -62,6 +62,8 @@ test("stdio handshake exposes portable, richly-described tools without opening a
       "Clients must be able to discover the picker by its HTML media type",
     );
     const content = await client.readResource({ uri: picker.uri });
+    const legacy = await client.readResource({ uri: "ui://lazada-mcp/product-picker-v2.html" });
+    assert.equal(legacy.contents[0].text, content.contents[0].text, "Older conversations must still resolve the picker after an update");
     assert.ok(
       content.contents.some(
         (r) => r.mimeType === picker.mimeType && r.text?.includes("<html"),

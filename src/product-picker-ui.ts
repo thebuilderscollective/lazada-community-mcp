@@ -1,4 +1,4 @@
-export const PRODUCT_PICKER_URI = "ui://lazada-mcp/product-picker-v2.html";
+export const PRODUCT_PICKER_URI = "ui://lazada-mcp/product-picker-v3.html";
 
 /**
  * A dependency-free MCP Apps component. It treats every storefront field as
@@ -11,7 +11,13 @@ export const productPickerHtml = String.raw`<!doctype html>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     :root { color-scheme: light dark; font: 14px/1.4 system-ui, sans-serif; }
-    body { margin: 0; padding: 16px; color: CanvasText; background: Canvas; }
+    * { box-sizing:border-box; }
+    body { margin: 0; padding: 16px; color: CanvasText; background: Canvas; height:var(--picker-height,640px); display:flex; flex-direction:column; overflow:hidden; }
+    header, footer { flex-shrink:0; }
+    #groups { flex:1; min-height:0; overflow:auto; overscroll-behavior:contain; padding-bottom:12px; }
+    .heading { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; }
+    #expand { background:transparent; color:CanvasText; border:1px solid GrayText; white-space:nowrap; }
+    #display-note { margin:6px 0; color:GrayText; font-size:12px; }
     header { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
     h1 { font-size:18px; margin:0; }
     #status { color: GrayText; }
@@ -32,7 +38,7 @@ export const productPickerHtml = String.raw`<!doctype html>
     .name { font-weight:650; }
     .price { margin-top:4px; }
     .meta { color:GrayText; font-size:12px; margin-top:3px; }
-    footer { position:sticky; bottom:0; margin:20px -16px -16px; padding:12px 16px; background:Canvas; border-top:1px solid color-mix(in srgb, CanvasText 18%, Canvas); }
+    footer { margin:0 -16px -16px; padding:12px 16px; background:Canvas; border-top:1px solid color-mix(in srgb, CanvasText 18%, Canvas); }
     .summary { display:flex; align-items:center; justify-content:space-between; gap:12px; }
     button { border:0; border-radius:9px; padding:9px 13px; color:white; background:#E52D35; font-weight:650; cursor:pointer; }
     button[disabled] { opacity:.5; cursor:not-allowed; }
@@ -42,7 +48,8 @@ export const productPickerHtml = String.raw`<!doctype html>
   </style>
 </head>
 <body>
-  <header><h1>Choose RedMart products</h1><span id="status">Loading…</span></header>
+  <header><div class="heading"><h1>Choose RedMart products</h1><span id="status">Loading…</span></div><button id="expand" type="button" aria-expanded="false">Expand</button></header>
+  <p id="display-note" role="status" hidden></p>
   <main id="groups"></main>
   <footer>
     <div class="summary"><span id="summary">Nothing has been added yet.</span><button id="review" disabled>Review selection</button></div>
@@ -55,8 +62,49 @@ export const productPickerHtml = String.raw`<!doctype html>
   const groupsEl = document.getElementById('groups'); const statusEl = document.getElementById('status');
   const summaryEl = document.getElementById('summary'); const reviewEl = document.getElementById('review');
   const confirmEl = document.getElementById('confirm'); const addEl = document.getElementById('add'); const resultEl = document.getElementById('result');
+  const expandEl=document.getElementById('expand'), displayNote=document.getElementById('display-note');
+  let hostContext={}, initialized=false, taller=false, lastHeight=0, resizeFrame=0;
+  function scheduleSize() {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame=requestAnimationFrame(()=>{
+      const dims=hostContext.containerDimensions || {};
+      const natural=groupsEl.scrollHeight + document.querySelector('header').offsetHeight + document.querySelector('footer').offsetHeight + displayNote.offsetHeight + 44;
+      let height=hostContext.displayMode==='fullscreen' ? (dims.height || window.innerHeight) : Math.min(taller ? 960 : 720, Math.max(320,natural));
+      if(Number.isFinite(dims.height)) height=dims.height;
+      else if(Number.isFinite(dims.maxHeight)) height=Math.min(height,dims.maxHeight);
+      height=Math.max(1,Math.ceil(height));
+      document.body.style.setProperty('--picker-height',height+'px');
+      if(initialized && lastHeight!==height) { lastHeight=height; parent.postMessage({jsonrpc:'2.0',method:'ui/notifications/size-changed',params:{height}},'*'); }
+    });
+  }
+  function applyHostContext(context) {
+    hostContext={...hostContext,...context};
+    const expanded=hostContext.displayMode==='fullscreen' || taller;
+    expandEl.textContent=expanded ? 'Collapse' : 'Expand';
+    expandEl.setAttribute('aria-expanded',String(expanded));
+    scheduleSize();
+  }
+  expandEl.onclick=async()=>{
+    displayNote.hidden=true;
+    const mode=hostContext.displayMode==='fullscreen' ? 'inline' : 'fullscreen';
+    if(hostContext.availableDisplayModes?.includes(mode)) {
+      expandEl.disabled=true;
+      try {
+        const result=await rpc('ui/request-display-mode',{mode},5000);
+        applyHostContext({displayMode:result.mode});
+        if(result.mode!==mode) { displayNote.textContent='The app kept this view inline. Scroll inside the products to see all options.'; displayNote.hidden=false; }
+      } catch { displayNote.textContent='The app could not expand this view. Scroll inside the products to see all options.'; displayNote.hidden=false; }
+      finally { expandEl.disabled=false; scheduleSize(); }
+    } else {
+      taller=!taller; applyHostContext({});
+      displayNote.textContent='Fullscreen is unavailable here. Scroll inside the products to see all options.'; displayNote.hidden=false; scheduleSize();
+    }
+  };
+  new ResizeObserver(scheduleSize).observe(groupsEl);
+  new ResizeObserver(scheduleSize).observe(document.querySelector('footer'));
+  addEventListener('resize',scheduleSize);
   const money = n => new Intl.NumberFormat(document.documentElement.lang || 'en-SG', {style:'currency',currency:'SGD'}).format(n);
-  function rpc(method, params) { const id = nextId++; parent.postMessage({jsonrpc:'2.0',id,method,params},'*'); return new Promise((resolve,reject)=>pending.set(id,{resolve,reject})); }
+  function rpc(method, params, timeout=0) { const id=nextId++; return new Promise((resolve,reject)=>{const timer=timeout ? setTimeout(()=>{pending.delete(id);reject(new Error('Host request timed out'));},timeout) : null;pending.set(id,{resolve:value=>{clearTimeout(timer);resolve(value);},reject:error=>{clearTimeout(timer);reject(error);}});parent.postMessage({jsonrpc:'2.0',id,method,params},'*');}); }
   function text(tag, value, cls) { const el=document.createElement(tag); if(cls) el.className=cls; el.textContent=value == null ? '' : String(value); return el; }
   function selectionRows() { return [...selected.entries()].map(([groupId, value]) => ({groupId,url:value.product.url,quantity:value.quantity})); }
   function persist() {
@@ -91,10 +139,10 @@ export const productPickerHtml = String.raw`<!doctype html>
     }
     const saved=window.openai?.widgetState?.privateContent;
     if(saved?.shortlistId===data.shortlistId&&Array.isArray(saved.selections)) for(const row of saved.selections){const control=controls.get(row.groupId)?.get(row.url);if(!control||control.radio.disabled)continue;control.radio.checked=true;control.qty.value=String(Math.max(1,Math.min(50,Number(row.quantity)||1)));selected.set(row.groupId,{product:control.product,quantity:Number(control.qty.value)});}
-    persist();
+    persist(); scheduleSize();
   }
-  addEventListener('message', event => { if(event.source!==parent) return; const msg=event.data; if(!msg||msg.jsonrpc!=='2.0') return; if(msg.id!==undefined&&pending.has(msg.id)){const p=pending.get(msg.id);pending.delete(msg.id);msg.error?p.reject(msg.error):p.resolve(msg.result);return;} if(msg.method==='ui/notifications/tool-result'&&msg.params?.structuredContent) render(msg.params.structuredContent); }, {passive:true});
-  rpc('ui/initialize',{protocolVersion:'2026-01-26',appInfo:{name:'Lazada picker',version:'1.1.0'},appCapabilities:{}}).then(()=>parent.postMessage({jsonrpc:'2.0',method:'ui/notifications/initialized'},'*')).catch(()=>{statusEl.textContent='Use the comparison in the conversation.';});
+  addEventListener('message', event => { if(event.source!==parent) return; const msg=event.data; if(!msg||msg.jsonrpc!=='2.0') return; if(msg.id!==undefined&&pending.has(msg.id)){const p=pending.get(msg.id);pending.delete(msg.id);msg.error?p.reject(msg.error):p.resolve(msg.result);return;} if(msg.method==='ui/notifications/host-context-changed') applyHostContext(msg.params || {}); if(msg.method==='ui/notifications/tool-result'&&msg.params?.structuredContent) render(msg.params.structuredContent); }, {passive:true});
+  rpc('ui/initialize',{protocolVersion:'2026-01-26',appInfo:{name:'Lazada picker',version:'1.1.2'},appCapabilities:{availableDisplayModes:['inline','fullscreen']}}).then(result=>{initialized=true;applyHostContext(result.hostContext || {});parent.postMessage({jsonrpc:'2.0',method:'ui/notifications/initialized'},'*');scheduleSize();}).catch(()=>{statusEl.textContent='Use the comparison in the conversation.';});
   if(window.openai?.toolOutput?.groups) render(window.openai.toolOutput);
   reviewEl.onclick=()=>{confirmEl.style.display='block';};
   addEl.onclick=async()=>{addEl.disabled=true; resultEl.textContent='Adding selected products…'; try { const out=await rpc('tools/call',{name:'add_shortlist_to_cart',arguments:{shortlist_id:shortlist.shortlistId,selections:selectionRows().map(r=>({group_id:r.groupId,url:r.url,quantity:r.quantity})),confirm:true}}); const data=out?.structuredContent; resultEl.textContent=data?.message || out?.content?.map(c=>c.text||'').join(' ') || 'Check the conversation and cart before retrying.'; } catch(error) { resultEl.textContent='Could not add the batch. Nothing further was attempted.'; } finally { reviewEl.disabled=true; confirmEl.style.display='none'; } };

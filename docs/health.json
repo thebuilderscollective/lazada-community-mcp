@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "automated": {
-    "checkedAt": "2026-09-06T05:29:30.480Z",
+    "checkedAt": "2026-09-06T14:47:28.352Z",
     "status": "passed",
-    "total": 45,
-    "passed": 44,
+    "total": 46,
+    "passed": 46,
     "failed": 0,
-    "skipped": 1
+    "skipped": 0
   },
   "live": {
     "checkedAt": "2026-09-05T18:57:59.530Z",
@@ -82,9 +82,9 @@
     {
       "name": "Claude Desktop",
       "status": "partial",
-      "checkedAt": "2026-09-06T05:35:00.247881+00:00",
-      "scope": "1.1.1 installed: cold start, session reuse and live search passed; search relevance and visual comparison still need review",
-      "evidence": "docs/TESTING.md#claude-desktop-111-startup-verification"
+      "checkedAt": "2026-09-06T14:48:50.335002+00:00",
+      "scope": "1.1.2: real photo comparison, fullscreen expand/collapse, session reuse and search verified; relevance still needs review",
+      "evidence": "docs/TESTING.md#picker-sizing-and-fullscreen-112"
     },
     {
       "name": "Grok",
