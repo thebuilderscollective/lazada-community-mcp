@@ -98,3 +98,20 @@ test("fresh-clone setup builds automatically and failed preparation remains retr
     );
   });
 });
+
+test('Codex setup installs a discoverable skill, updates managed copies, and preserves user edits', async()=>{
+ const {installCodexSkill}=await import('../scripts/setup.mjs');
+ await fixture(true,async({root,installRoot})=>{
+  const source=join(root,'skills/lazada-shopping');await mkdir(source,{recursive:true});
+  await writeFile(join(source,'SKILL.md'),'first skill');
+  const skillsRoot=join(installRoot,'user-skills');
+  const target=await installCodexSkill(root,{skillsRoot});
+  assert.equal(await readFile(join(target,'SKILL.md'),'utf8'),'first skill');
+  await writeFile(join(source,'SKILL.md'),'updated skill');
+  await installCodexSkill(root,{skillsRoot});
+  assert.equal(await readFile(join(target,'SKILL.md'),'utf8'),'updated skill');
+  await writeFile(join(target,'SKILL.md'),'my customization');
+  await assert.rejects(installCodexSkill(root,{skillsRoot}),/preserved/);
+  assert.equal(await readFile(join(target,'SKILL.md'),'utf8'),'my customization');
+ });
+});

@@ -214,3 +214,19 @@ visible-mode override. Host CDP mode does not close or hide the host's browser.
 A headless challenge is reported, not automatically retried or bypassed. If human attention is needed,
 use the login flow for expired authentication, or explicitly configure visible mode for an attended challenge
 check. Do not assume that successful API login checks prove every product page is challenge-free.
+
+## Codex finds the browser before the shopping tools
+
+A plain MCP registration exposes tools but does not install the bundled shopping skill. Version 1.1.3
+of the installer had this gap. Source `setup codex` now also installs `lazada-shopping` in
+`~/.agents/skills`, preserves customized copies, and reports the shared data location. Start a new
+task after installing the skill. It instructs Codex to discover Lazada tools before browser control,
+reuse one memory response across a list, and avoid repeating the full visual comparison in prose.
+Skill guidance improves routing but does not guarantee the host/model will select it every time.
+
+Codex can initially collapse an MCP tool card even when its embedded picker is correctly sized.
+Open the comparison in the side panel to see it; then use the picker's Expand control if needed.
+The plugin cannot force a host-owned collapsed card open without a supported host display action.
+
+See the README's storage table: both local clients use `~/.lazada-mcp` by default. Chat-only memories
+are not imported automatically. Save lasting product choices with `remember_product` to share them.

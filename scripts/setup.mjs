@@ -145,6 +145,26 @@ export async function installRuntime({
     await rm(staging, { recursive: true, force: true });
   }
 }
+/** Install discovery instructions as well as tools; a bare MCP registration is easy to miss. */
+export async function installCodexSkill(root, { skillsRoot = join(homedir(), ".agents", "skills") } = {}) {
+  const source = await readFile(join(root, "skills/lazada-shopping/SKILL.md"), "utf8");
+  const destination = join(skillsRoot, "lazada-shopping");
+  const skillPath = join(destination, "SKILL.md");
+  const markerPath = join(destination, ".lazada-managed");
+  const digest = value => createHash("sha256").update(value).digest("hex");
+  if (await exists(destination)) {
+    const previous = await readFile(skillPath, "utf8").catch(() => null);
+    if (previous === source) return destination;
+    const marker = await readFile(markerPath, "utf8").catch(() => null);
+    if (previous === null || marker !== digest(previous))
+      throw new Error(`Shopping tools are installed, but setup preserved an existing/customized skill at ${destination}. Ask your assistant to review it before updating the shopping instructions.`);
+  }
+  await mkdir(destination, { recursive: true, mode: 0o700 });
+  await writeFile(skillPath, source, { mode: 0o600 });
+  await writeFile(markerPath, digest(source), { mode: 0o600 });
+  return destination;
+}
+
 export function clientRegistration(client, root) {
   const entry = join(root, "scripts", "launch-mcp.mjs");
   if (client === "codex")
@@ -197,10 +217,12 @@ export async function setup(args, options = {}) {
       registration.args,
       root,
     );
+    if (client === "codex") await installCodexSkill(root, options);
     console.error(
       `Lazada is connected to ${client === "codex" ? "Codex" : "Claude Code"}. Open a new task and say “Connect Lazada”. Complete sign-in in the visible browser. Chrome must be installed.`,
     );
   }
+  console.error(`Shared Lazada data: ${process.env.LAZADA_DATA_DIR ?? join(homedir(), ".lazada-mcp")}. Local clients using this same directory share login and account preferences; their own chat memories remain separate.`);
   return { root, config };
 }
 if (

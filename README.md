@@ -13,7 +13,7 @@ With Node.js 22+, Chrome, and the Codex CLI installed, paste one command into yo
 curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- codex
 ```
 
-The installer downloads and verifies the release, then connects Lazada to Codex.
+The installer downloads and verifies the release, then connects Lazada to Codex. Source setup also installs the shopping skill so grocery requests can discover the MCP before using a browser. The published 1.1.3 installer predates that addition.
 
 Open a new task → **“Connect Lazada”** → sign in in the browser. Other local tasks reuse your login.
 Already installed through the Codex marketplace? Update that plugin instead of adding a second connection.
@@ -82,6 +82,23 @@ Command-line setup needs Node.js 22+ and Chrome. Fresh clones can use `node scri
 
 Lazada stays the source for products and shopping. External ingredient research requires your approval.
 [All 25 tools →](docs/TOOLS.md)
+
+## Where your login and preferences live
+
+Local Codex and Claude use the same `~/.lazada-mcp` directory by default—no manual path configuration is needed.
+
+| Local data | Location |
+|---|---|
+| Saved browser login | `~/.lazada-mcp/profile/` |
+| Account-specific product preferences and observed order history | `~/.lazada-mcp/memory/` |
+| Saved comparison drafts | `~/.lazada-mcp/shortlists/` |
+
+Ask either assistant to remember a product using the Lazada integration, and the other can read that preference.
+Notes saved only in Claude's or Codex's own chat memory are separate. Memory records are separated by a hash of the
+Lazada account ID. File permissions are private to the local OS user; the data is not an encrypted vault.
+Set `LAZADA_DATA_DIR` in each MCP configuration only if you want a different shared root; a separate
+`LAZADA_PROFILE_DIR` changes the browser profile. Different computers, cloud VMs, or data roots do not automatically sync.
+Browser operations are serialized across clients; coordinate cart edits since both assistants affect the same cart.
 
 ## Quiet shopping, clear approval
 
