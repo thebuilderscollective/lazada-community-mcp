@@ -181,3 +181,9 @@ mismatch refusal, invalid locations, and a persistent verified Desktop bundle ha
 installer. Tests do not register real clients or approve installation dialogs. Claude Desktop approval
 and Grok registration remain explicit host steps. Never substitute a successful scripted handshake for
 a completed native installation test.
+
+
+The 1.1.0 release verification also runs real npm against the prebuilt archive in a disposable install
+root. This caught a positional-archive invocation being treated as an executable; the installer now
+uses explicit `--package=...` and the `lazada-mcp` binary. Mocked argument tests alone do not prove npm
+package resolution. The real check prints configuration only and never registers a live client.

@@ -12,7 +12,7 @@ async function fixture(fn){
  const stubs={
   curl:'[ "${FAIL_DOWNLOAD:-0}" != 1 ] || exit 22\nurl=\noutput=\nwhile [ "$#" -gt 0 ]; do case "$1" in https://*) url=$1 ;; -o) shift; output=$1 ;; esac; shift; done\ncase "$url" in */SHA256SUMS) cp "$FIXTURE/SHA256SUMS" "$output" ;; *) cp "$FIXTURE/asset" "$output" ;; esac',
   node:'exit 0',
-  npx:'printf "%s\\n" "$@" > "$FIXTURE/invocation"\n[ -f "$2" ] || exit 3\ncat "$2" > "$FIXTURE/installed-asset"',
+  npx:'printf "%s\\n" "$@" > "$FIXTURE/invocation"\narchive=${2#--package=}\n[ -f "$archive" ] || exit 3\ncat "$archive" > "$FIXTURE/installed-asset"',
   uname:'printf "%s\\n" "${TEST_SYSTEM:-Linux}"',
   open:'printf "%s\\n" "$1" > "$FIXTURE/opened"\n[ -f "$1" ]',
  };
@@ -23,7 +23,7 @@ async function fixture(fn){
 }
 test('curl installer verifies and hands off to the existing client setup, cleaning temporary downloads',async()=>fixture(async({root,downloads,run})=>{
  for(const [target,client] of [['codex','codex'],['claude-code','claude'],['grok','config']]){
-  const r=run(target);assert.equal(r.status,0,r.stderr);const args=(await readFile(join(root,'invocation'),'utf8')).trim().split('\n');assert.deepEqual(args.slice(-2),['setup',client]);assert.equal(await readFile(join(root,'installed-asset'),'utf8'),'fixture package');assert.deepEqual(await readdir(downloads),[]);
+  const r=run(target);assert.equal(r.status,0,r.stderr);const args=(await readFile(join(root,'invocation'),'utf8')).trim().split('\n');assert.deepEqual(args.slice(-3),['lazada-mcp','setup',client]);assert.ok(args[1].startsWith('--package='));assert.equal(await readFile(join(root,'installed-asset'),'utf8'),'fixture package');assert.deepEqual(await readdir(downloads),[]);
  }
 }));
 test('checksum failure and failed downloads never execute setup',async()=>fixture(async({root,downloads,run})=>{

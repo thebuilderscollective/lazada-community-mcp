@@ -58,7 +58,7 @@ For a new macOS Desktop installation, run `curl -fsSL https://github.com/Rajat-G
 When replacing the existing local-dev registration, have your assistant back up the configuration and remove only its `mcpServers.lazada` entry before enabling the bundle, then fully quit/reopen Claude. Keep other servers and your saved Lazada session. Do not enable both registrations.
 
 `setup claude` registers **Claude Code**, not Claude Desktop chat. For the manual Desktop alternative, ask your assistant to
-run `npx --yes ./lazada-mcp-1.1.0.tgz setup config` and merge the printed `lazada` entry into
+run `npx --yes --package=./lazada-mcp-1.1.0.tgz lazada-mcp setup config` and merge the printed `lazada` entry into
 `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, preserving other servers
 and any existing Lazada environment settings. Then fully quit Claude with **Cmd+Q** and reopen it.
 Ask it to check the Lazada connection and search for a product without changing your cart.

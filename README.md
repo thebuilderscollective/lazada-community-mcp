@@ -101,7 +101,7 @@ Claude Desktop may need a full quit/reopen. [Troubleshooting →](SETUP.md#every
 <!-- health:start -->
 | Check | Last reported result | Last checked |
 |---|---|---|
-| Isolated smoke suite | ✅ Passed · 43/44 passed; 1 skipped | 2026-09-06 05:04 UTC |
+| Isolated smoke suite | ✅ Passed · 43/44 passed; 1 skipped | 2026-09-06 05:10 UTC |
 | Live Lazada browser reads | ✅ Passed · 12/12 checks | 2026-09-05 18:57 UTC |
 | Codex | 🟡 Partial · Installed and enabled; MCP verified, full shopping conversation pending | 2026-09-05 17:48 UTC |
 | Claude Code | ✅ Passed · Real prompt: login reuse + shortlist + preference questions | 2026-09-05 17:41 UTC |

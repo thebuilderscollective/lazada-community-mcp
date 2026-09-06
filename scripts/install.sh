@@ -62,7 +62,7 @@ main() {
     printf '%s\n' 'Review the Lazada installation dialog in Claude. Then start a new chat and say "Connect Lazada".'
   else
     case "$target" in claude-code) client=claude ;; grok) client=config ;; *) client=$target ;; esac
-    npx --yes "$stage/$asset" setup "$client"
+    npx --yes --package="$stage/$asset" lazada-mcp setup "$client"
     if [ "$target" = grok ]; then
       printf '%s\n' 'Grok: register the printed MCP configuration on this shared computer using its existing host-browser settings. Follow SETUP.md in the installed package. Do not copy login cookies or guess a debugging port.' >&2
     fi
