@@ -1,4 +1,7 @@
 import { randomUUID } from "node:crypto";
+import { join } from "node:path";
+import { config } from "./config.js";
+import { ShortlistStore } from "./shortlist-store.js";
 import { shoppingMemory } from "./memory.js";
 import {
   addToCart,
@@ -42,8 +45,7 @@ export type ProductShortlist = {
 
 type SearchFn = typeof search;
 
-const shortlists = new Map<string, ProductShortlist>();
-const MAX_SAVED_SHORTLISTS = 50;
+const shortlists = new ShortlistStore(join(config.dataDir, "shortlists", "drafts.json"));
 
 export async function createShortlist(
   requests: ShortlistRequest[],
@@ -53,6 +55,7 @@ export async function createShortlist(
     redmartOnly?: boolean;
   } = {},
   searchFn: SearchFn = search,
+  store: ShortlistStore = shortlists,
 ): Promise<ProductShortlist> {
   const limit = opts.limitPerItem ?? 3;
   const results: SearchResult[] = [];
@@ -68,7 +71,7 @@ export async function createShortlist(
   return saveShortlist(
     requests.map((request, index) =>
       groupFromResult(request, index, results[index]),
-    ),
+    ), store,
   );
 }
 
@@ -101,7 +104,7 @@ function groupFromResult(
   };
 }
 
-function saveShortlist(groups: ShortlistGroup[]): ProductShortlist {
+function saveShortlist(groups: ShortlistGroup[], store: ShortlistStore): ProductShortlist {
   const shortlist: ProductShortlist = {
     shortlistId: randomUUID(),
     expiresAt: new Date(Date.now() + 30 * 60_000).toISOString(),
@@ -114,22 +117,12 @@ function saveShortlist(groups: ShortlistGroup[]): ProductShortlist {
       message: "Nothing has been added yet.",
     },
   };
-  shortlists.set(shortlist.shortlistId, shortlist);
-  if (shortlists.size > MAX_SAVED_SHORTLISTS) {
-    shortlists.delete(shortlists.keys().next().value as string);
-  }
+  store.save(shortlist);
   return shortlist;
 }
 
 export function getShortlist(shortlistId: string): ProductShortlist {
-  const shortlist = shortlists.get(shortlistId);
-  if (!shortlist || Date.parse(shortlist.expiresAt) <= Date.now()) {
-    shortlists.delete(shortlistId);
-    throw new Error(
-      "That shortlist is no longer available. Call shortlist_products again.",
-    );
-  }
-  return shortlist;
+  return shortlists.get(shortlistId, true);
 }
 
 export type ShortlistSelection = {
@@ -142,13 +135,14 @@ export async function addShortlistToCart(args: {
   shortlistId: string;
   selections: ShortlistSelection[];
   confirm: true;
-}): Promise<Record<string, unknown>> {
+}, dependencies: { store?: ShortlistStore; add?: typeof addToCart } = {}): Promise<Record<string, unknown>> {
   if (args.confirm !== true) {
     throw new Error(
       "confirm must be true before adding shortlist choices. Nothing was added.",
     );
   }
-  const shortlist = getShortlist(args.shortlistId);
+  const store = dependencies.store ?? shortlists;
+  const shortlist = store.get(args.shortlistId);
   const byGroup = new Map(
     shortlist.groups.map((group) => [group.groupId, group]),
   );
@@ -192,7 +186,7 @@ export async function addShortlistToCart(args: {
     );
   }
 
-  shortlists.delete(args.shortlistId); // Consume before mutations: retries cannot duplicate a partially added batch.
+  store.consume(args.shortlistId); // Persist before mutations: restarting cannot replay a partially added batch.
   const results: Array<Record<string, unknown>> = [];
   let failed = false;
   for (const selection of args.selections) {
@@ -208,7 +202,7 @@ export async function addShortlistToCart(args: {
       continue;
     }
     try {
-      const result = await addToCart(selection.url, selection.quantity);
+      const result = await (dependencies.add ?? addToCart)(selection.url, selection.quantity);
       const succeeded = result.ok === true;
       results.push({
         groupId: selection.groupId,
@@ -280,6 +274,7 @@ export async function personalisedShortlist(
       ),
   }));
   shortlist.groups = groups;
+  shortlists.save(shortlist);
   return {
     ...shortlist,
     groups,

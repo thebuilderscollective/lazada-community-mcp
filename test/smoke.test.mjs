@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFile } from "node:fs/promises";
+import { readFile, mkdtemp, rm } from "node:fs/promises";
+import { ShortlistStore } from "../dist/shortlist-store.js";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { createMcpServer, getToolSpec } from "../dist/server.js";
@@ -58,9 +59,12 @@ test("product comparisons preserve pack size, unit prices, and honest counts", (
   assert.equal(calculateUnitPrice(6, inferPackInfo("500ml x 2")).value, 6);
   assert.equal(calculateUnitPrice(Infinity, inferPackInfo("1L")), null);
 });
-test("missing quantity stays unknown and direct add requires explicit quantity", async () => {
+test("missing quantity stays unknown and direct add requires explicit quantity", async (t) => {
+  const directory=await mkdtemp("/tmp/lazada-shortlist-smoke-");
+  t.after(()=>rm(directory,{recursive:true,force:true}));
+  const store=new ShortlistStore(directory+"/drafts.json");
   const shortlist = await createShortlist([{ query: "milk" }], {}, async (q) =>
-    searchResultFromPayload(fixture, q, 1, 3),
+    searchResultFromPayload(fixture, q, 1, 3), store,
   );
   assert.equal(shortlist.groups[0].quantity, null);
   assert.equal(shortlist.groups[0].quantityRequired, true);
@@ -83,7 +87,7 @@ test("missing quantity stays unknown and direct add requires explicit quantity",
           },
         ],
         confirm: true,
-      }),
+      }, {store}),
     /explicit quantity/,
   );
 });

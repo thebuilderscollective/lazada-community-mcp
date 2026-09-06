@@ -26,7 +26,7 @@ test("stdio handshake exposes portable, richly-described tools without opening a
       { name: identity.name, version: identity.version },
       {
         name: "lazada-mcp",
-        version: "1.1.2",
+        version: "1.1.3",
       },
     );
     assert.equal(identity.icons[0].mimeType, "image/svg+xml");

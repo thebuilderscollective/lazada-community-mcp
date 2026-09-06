@@ -136,3 +136,25 @@ and footer. The older v2 resource remains available for previous conversations.
 
 Verified against the [MCP Apps specification](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx)
 and in Claude Desktop with an eight-group live comparison. No cart mutation was made.
+
+## Pack comparison and durable shortlists (1.1.3)
+
+The picker shows pack size, listed price per pack, chosen pack count, and line total. Normalized
+per-kilo/litre prices are omitted from comparisons unless requested. Missing pack sizes remain
+explicitly unavailable; photos are never used to infer weight. Cards keep quantity controls below
+the product details and ratings use one decimal. Browser fixtures cover 380px and 600px widths.
+
+Previous drafts lived only in memory: restarting the service during an extension update could
+discard a still-fresh shortlist. Drafts now persist in the private data directory (0700 directory,
+0600 file). Prices retain their 30-minute freshness window; expired drafts can still be displayed.
+Refresh options keeps exact matching product choices and quantities, updates prices, and requires
+a fresh review and confirmation. Missing, expired, and already-submitted drafts have distinct errors.
+The submission marker is durably saved before cart operations, preventing replay after a partial
+failure or restart. Isolated tests exercise restart, expiry, corruption, partial failure, and refresh;
+no live cart mutation is used for these checks. Drafts lost by older versions cannot be recovered
+from disk and need a fresh comparison.
+
+Product names in the comparison table and View product links under each photo card open the exact
+returned listing through [MCP Apps ui/open-link](https://apps.extensions.modelcontextprotocol.io/api/interfaces/app.McpUiOpenLinkRequest.html).
+Only HTTPS Lazada SG product URLs are linked. Host refusal shows the URL for manual copying;
+opening a link neither selects the product nor changes the cart.

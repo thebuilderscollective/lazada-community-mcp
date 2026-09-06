@@ -68,7 +68,7 @@ Command-line setup needs Node.js 22+ and Chrome. Fresh clones can use `node scri
 
 > **You:** “Compare oat milk with my usual purchases. Show three choices and any multi-buy deal. Don't change my cart.”
 >
-> **Assistant:** A comparison table followed by product-photo cards, with pack sizes, current prices, known unit prices, and purchase history.
+> **Assistant:** A comparison table followed by product-photo cards, with links to the exact Lazada listings, pack sizes, prices per pack, pack quantities, line totals, and purchase history.
 > It asks about missing quantity or quality before adding anything.
 
 *Illustrative flow; live products and prices vary. Visual choices appear in clients supporting MCP Apps. Use **Expand** for a larger comparison and **Collapse** to return to chat; fullscreen depends on the client.*
@@ -76,7 +76,7 @@ Command-line setup needs Node.js 22+ and Chrome. Fresh clones can use `node scri
 | Ask for… | What you get |
 |---|---|
 | Your usual groceries | Observed recent purchase frequency and saved preferences |
-| A better choice | Shortlists, pack/unit prices, stock, and current offers |
+| A better choice | Shortlists, pack sizes and prices, stock, and current offers |
 | Ingredients or nutrition | Lazada's labelled details when readable; an explicit gap when unavailable |
 | A basket review | Selected items, delivery, fees, total, and a fresh approval step |
 
@@ -101,7 +101,7 @@ Claude Desktop may need a full quit/reopen. [Troubleshooting →](SETUP.md#every
 <!-- health:start -->
 | Check | Last reported result | Last checked |
 |---|---|---|
-| Isolated smoke suite | ✅ Passed · 46/46 passed; 0 skipped | 2026-09-06 14:47 UTC |
+| Isolated smoke suite | ✅ Passed · 50/50 passed; 0 skipped | 2026-09-06 15:18 UTC |
 | Live Lazada browser reads | ✅ Passed · 12/12 checks | 2026-09-05 18:57 UTC |
 | Codex | 🟡 Partial · Installed and enabled; MCP verified, full shopping conversation pending | 2026-09-05 17:48 UTC |
 | Claude Code | ✅ Passed · Real prompt: login reuse + shortlist + preference questions | 2026-09-05 17:41 UTC |

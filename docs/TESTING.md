@@ -224,3 +224,20 @@ The picker fixture starts with a 150px iframe, checks size notifications, native
 requests, selection/quantity preservation, host refusal, unsupported fullscreen, scrollable content,
 and absence of cart calls. Protocol coverage checks that the v2 resource address still resolves.
 Codex and Grok fullscreen behavior is not yet verified in those hosts.
+
+## Pack comparison and durable shortlists (1.1.3)
+
+The picker shows pack size, listed price per pack, chosen pack count, and line total. Normalized
+per-kilo/litre prices are omitted from comparisons unless requested. Missing pack sizes remain
+explicitly unavailable; photos are never used to infer weight. Cards keep quantity controls below
+the product details and ratings use one decimal. Browser fixtures cover 380px and 600px widths.
+
+Previous drafts lived only in memory: restarting the service during an extension update could
+discard a still-fresh shortlist. Drafts now persist in the private data directory (0700 directory,
+0600 file). Prices retain their 30-minute freshness window; expired drafts can still be displayed.
+Refresh options keeps exact matching product choices and quantities, updates prices, and requires
+a fresh review and confirmation. Missing, expired, and already-submitted drafts have distinct errors.
+The submission marker is durably saved before cart operations, preventing replay after a partial
+failure or restart. Isolated tests exercise restart, expiry, corruption, partial failure, and refresh;
+no live cart mutation is used for these checks. Drafts lost by older versions cannot be recovered
+from disk and need a fresh comparison.
