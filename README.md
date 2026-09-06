@@ -10,7 +10,7 @@ Find your usuals. Compare a few good choices. Approve the basket before buying.<
 With Node.js 22+, Chrome, and the Codex CLI installed, paste one command into your terminal:
 
 ```bash
-curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- codex
+curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- codex
 ```
 
 The installer downloads and verifies the release, then connects Lazada to Codex.
@@ -24,19 +24,19 @@ Already installed through the Codex marketplace? Update that plugin instead of a
 **Claude Desktop on Mac — paste this into Terminal:**
 
 ```bash
-curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop
+curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop
 ```
 
 It downloads the verified bundle and opens Claude's installer. Click **Install**, open a new chat, and say
 **“Connect Lazada.”** No Node.js, cloning, or build commands needed for this Desktop bundle. Chrome is required.
-[Prefer clicking a download? Get the Desktop bundle →](https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/lazada-mcp.mcpb)
+[Prefer clicking a download? Get the Desktop bundle →](https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/lazada-mcp.mcpb)
 
 If you already have a local `lazada` connection, follow the [upgrade guide](SETUP.md#claude-desktop-chat) to avoid duplicates.
 
 **Claude Code** (Node.js 22+, Chrome, and the Claude CLI required):
 
 ```bash
-curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-code
+curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-code
 ```
 
 Desktop and Code have separate registrations; both share the same login and memory on your Mac.
@@ -47,7 +47,7 @@ Ask your bot to run this on its shared computer and register the printed configu
 host-browser settings:
 
 ```bash
-curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- grok
+curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- grok
 ```
 
 Grok uses its own computer's session. This command installs the runtime and prints configuration;
@@ -56,7 +56,7 @@ the bot must register it with Grok. Fresh-install and visual comparison verifica
 
 <details><summary>Requirements and downloads</summary>
 
-Downloads are available from [GitHub Releases](https://github.com/Rajat-Goyal/lazada-community-mcp/releases).
+Downloads are available from [GitHub Releases](https://github.com/thebuilderscollective/lazada-community-mcp/releases).
 Released under the [MIT license](LICENSE): use, modify, and share it, including commercially, while retaining the license notice. The package is not published to npm. This is an independent community preview, not an official Lazada/RedMart integration.
 The local runtime supports macOS and Linux; the Desktop bundle targets macOS. Windows is not supported yet.
 Command-line setup needs Node.js 22+ and Chrome. Fresh clones can use `node scripts/setup.mjs codex` or
@@ -119,6 +119,8 @@ or checkout work. The [coverage matrix and run notes](docs/TESTING.md) make thos
 Run `npm run smoke -- --live` while shopping is idle to refresh the dated report; no schedule is enabled automatically.
 
 ## Build with us
+
+A community project from [The Builders Collective](https://github.com/thebuilderscollective).
 
 Confusing setup steps, reproducible bugs, and real client test reports all help.
 [Contributing](CONTRIBUTING.md) · [Testing](docs/TESTING.md) · [Verified site findings](docs/MAINTENANCE.md) · [Architecture](docs/CONSOLIDATION.md)

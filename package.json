@@ -65,11 +65,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Rajat-Goyal/lazada-community-mcp.git"
+    "url": "https://github.com/thebuilderscollective/lazada-community-mcp.git"
   },
-  "homepage": "https://github.com/Rajat-Goyal/lazada-community-mcp",
+  "homepage": "https://github.com/thebuilderscollective/lazada-community-mcp",
   "bugs": {
-    "url": "https://github.com/Rajat-Goyal/lazada-community-mcp/issues"
+    "url": "https://github.com/thebuilderscollective/lazada-community-mcp/issues"
   },
   "license": "MIT"
 }

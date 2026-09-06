@@ -3,7 +3,7 @@
 Thanks for helping make grocery shopping through an assistant less fiddly. You don't need to write
 code to help: a clear bug report, confusing setup step, or carefully recorded client test is useful.
 
-This is a community preview for personal use on Lazada Singapore. Use [GitHub issues](https://github.com/Rajat-Goyal/lazada-community-mcp/issues) for sanitized reports.
+This is a community preview for personal use on Lazada Singapore. Use [GitHub issues](https://github.com/thebuilderscollective/lazada-community-mcp/issues) for sanitized reports.
 The project is [MIT licensed](LICENSE). Contributions are provided under the same license.
 
 ## A good first contribution

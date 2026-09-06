@@ -6,9 +6,9 @@ The friend-facing instructions are in [README](README.md). With Node.js 22+ and 
 setup is one command (the installer downloads and verifies the package for you):
 
 ```bash
-curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- codex
+curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- codex
 # Or:
-curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-code
+curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-code
 ```
 
 For a clone or extracted archive, use `node scripts/setup.mjs codex` or `node scripts/setup.mjs claude`.
@@ -53,7 +53,7 @@ are separate sessions. The service shares the live account/cart, not an isolated
 
 ## Claude Desktop chat
 
-For a new macOS Desktop installation, run `curl -fsSL https://github.com/Rajat-Goyal/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop`. It downloads and verifies the bundle, opens Claude, and leaves the native installation approval to you. It bundles production dependencies and standalone Node runtimes for Apple Silicon and Intel Macs; Chrome must be installed. It is an unsigned community preview, not a directory-listed extension.
+For a new macOS Desktop installation, run `curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop`. It downloads and verifies the bundle, opens Claude, and leaves the native installation approval to you. It bundles production dependencies and standalone Node runtimes for Apple Silicon and Intel Macs; Chrome must be installed. It is an unsigned community preview, not a directory-listed extension.
 
 When replacing the existing local-dev registration, have your assistant back up the configuration and remove only its `mcpServers.lazada` entry before enabling the bundle, then fully quit/reopen Claude. Keep other servers and your saved Lazada session. Do not enable both registrations.
 
