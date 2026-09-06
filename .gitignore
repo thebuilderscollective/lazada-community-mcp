@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.profile/
+*.log
+.DS_Store
+debug/
+
+# ~/.gitignore-global excludes these everywhere; this project ships them
+# deliberately as its contributor docs, so opt back in here.
+!AGENTS.md
+!CLAUDE.md
+
+# Private shopping sessions and local memory must never ship.
+*storageState*.json
+*lazada-session*.json
+*.sock
+*.tmp
+*.mcpb
+*.tgz
+
+# Generated releases and publication staging
+releases/

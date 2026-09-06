@@ -1,0 +1,75 @@
+{
+  "name": "lazada-mcp",
+  "version": "1.1.0",
+  "private": true,
+  "description": "MCP server for shopping RedMart groceries on your own Lazada account",
+  "type": "module",
+  "bin": {
+    "lazada-mcp": "scripts/cli.mjs"
+  },
+  "scripts": {
+    "prepack": "npm run build",
+    "setup": "node scripts/setup.mjs",
+    "smoke": "node scripts/health.mjs",
+    "health:refresh": "node scripts/health.mjs --refresh",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "test:unit": "npm run build && node --test test/url-policy.test.mjs test/checkout-confirmation.test.mjs test/tool-metadata.test.mjs",
+    "test:protocol": "npm run build && node --test test/protocol.test.mjs",
+    "test:live": "npm run build && node scripts/live-check.mjs",
+    "validate:plugin": "node scripts/validate-plugin.mjs",
+    "dev": "tsc --watch",
+    "login": "node scripts/session-cli.mjs",
+    "probe": "node scripts/session-cli.mjs probe",
+    "login:complete": "node scripts/session-cli.mjs capture",
+    "doctor": "node scripts/service-control.mjs",
+    "service:stop": "node scripts/service-control.mjs stop",
+    "serve:http": "node dist/http.js",
+    "config:print": "node scripts/print-mcp-config.mjs",
+    "test:browser": "npm run build && node --test test/browser.test.mjs",
+    "package:desktop": "node scripts/package-desktop.mjs",
+    "package:release": "node scripts/package-release.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.22.0",
+    "playwright": "^1.58.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist",
+    "src",
+    "scripts",
+    "test",
+    "npm-shrinkwrap.json",
+    "skills",
+    ".codex-plugin",
+    ".claude-plugin",
+    ".github/ISSUE_TEMPLATE",
+    ".mcp.json",
+    "README.md",
+    "SETUP.md",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "docs",
+    "tsconfig.json",
+    "manifest.json",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rajat-Goyal/lazada-community-mcp.git"
+  },
+  "homepage": "https://github.com/Rajat-Goyal/lazada-community-mcp",
+  "bugs": {
+    "url": "https://github.com/Rajat-Goyal/lazada-community-mcp/issues"
+  },
+  "license": "MIT"
+}

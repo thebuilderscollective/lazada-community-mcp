@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "automated": {
+    "checkedAt": "2026-09-06T05:04:09.214Z",
+    "status": "passed",
+    "total": 44,
+    "passed": 43,
+    "failed": 0,
+    "skipped": 1
+  },
+  "live": {
+    "checkedAt": "2026-09-05T18:57:59.530Z",
+    "status": "passed",
+    "passed": 12,
+    "total": 12,
+    "checks": [
+      {
+        "name": "connection",
+        "status": "passed"
+      },
+      {
+        "name": "signed_in",
+        "status": "passed"
+      },
+      {
+        "name": "cart_before",
+        "status": "passed"
+      },
+      {
+        "name": "login_reuse",
+        "status": "passed"
+      },
+      {
+        "name": "search",
+        "status": "passed"
+      },
+      {
+        "name": "product",
+        "status": "passed"
+      },
+      {
+        "name": "history",
+        "status": "passed"
+      },
+      {
+        "name": "memory",
+        "status": "passed"
+      },
+      {
+        "name": "shortlist_and_picker",
+        "status": "passed"
+      },
+      {
+        "name": "addresses",
+        "status": "passed"
+      },
+      {
+        "name": "reconnect",
+        "status": "passed"
+      },
+      {
+        "name": "cart_unchanged",
+        "status": "passed"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "name": "Codex",
+      "status": "partial",
+      "checkedAt": "2026-09-05T17:48:40Z",
+      "scope": "Installed and enabled; MCP verified, full shopping conversation pending",
+      "evidence": "docs/CONSOLIDATION.md"
+    },
+    {
+      "name": "Claude Code",
+      "status": "passed",
+      "checkedAt": "2026-09-05T17:41:48Z",
+      "scope": "Real prompt: login reuse + shortlist + preference questions",
+      "evidence": "docs/CONSOLIDATION.md"
+    },
+    {
+      "name": "Claude Desktop",
+      "status": "partial",
+      "checkedAt": "2026-09-06T04:48:25.217854+00:00",
+      "scope": "Old connector removed for owner reinstall; new bundle conversation test pending",
+      "evidence": "docs/TESTING.md#comparison-layout-and-reinstallation"
+    },
+    {
+      "name": "Grok",
+      "status": "partial",
+      "checkedAt": "2026-09-06T04:48:25.217854+00:00",
+      "scope": "Old connector uninstalled in app; owner reinstall and visual test pending",
+      "evidence": "docs/TESTING.md#comparison-layout-and-reinstallation"
+    },
+    {
+      "name": "ChatGPT Work cloud",
+      "status": "untested",
+      "checkedAt": null,
+      "scope": "Host integration pending",
+      "evidence": "SETUP.md"
+    }
+  ]
+}

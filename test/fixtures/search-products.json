@@ -1,0 +1,44 @@
+{
+  "mainInfo": {
+    "totalResults": 42
+  },
+  "mods": {
+    "listItems": [
+      {
+        "itemId": "1001",
+        "skuId": "2001",
+        "name": "Everyday Oat Drink 1L",
+        "price": "3.60",
+        "originalPrice": "4.20",
+        "sellerName": "RedMart",
+        "ratingScore": "4.8",
+        "review": "125",
+        "inStock": true,
+        "discount": "14% Off",
+        "image": "//example.invalid/oat-1.jpg"
+      },
+      {
+        "itemId": "1002",
+        "skuId": "2002",
+        "name": "Barista Oat Drink 6 x 1L",
+        "price": "19.20",
+        "sellerName": "RedMart",
+        "ratingScore": "4.7",
+        "review": "89",
+        "inStock": true,
+        "image": "//example.invalid/oat-2.jpg"
+      },
+      {
+        "itemId": "1003",
+        "skuId": "2003",
+        "name": "Fresh Bananas - One Bunch",
+        "price": "2.95",
+        "sellerName": "RedMart",
+        "ratingScore": "4.5",
+        "review": "200",
+        "inStock": true,
+        "image": "//example.invalid/bananas.jpg"
+      }
+    ]
+  }
+}

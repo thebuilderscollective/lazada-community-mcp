@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "lazada": {
+      "command": "node",
+      "args": ["scripts/launch-mcp.mjs"],
+      "cwd": ".",
+      "env": {
+        "LAZADA_BASE_URL": "https://www.lazada.sg",
+        "LAZADA_MAX_ORDER_TOTAL": "300"
+      }
+    }
+  }
+}

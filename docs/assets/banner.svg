@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+<title id="title">Lazada MCP</title><desc id="desc">Your groceries. Your choices. Your final say. An independent RedMart shopping assistant.</desc>
+<rect width="1200" height="300" rx="24" fill="#FFF5F1"/>
+<circle cx="1170" cy="25" r="200" fill="#FFE5E0"/>
+<g transform="translate(64 67) scale(1.7)"><rect width="96" height="96" rx="24" fill="#E52D35"/>
+<g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 40h52l-7 32H29zM33 39l11-16M63 39L52 23M39 51v10M57 51v10"/>
+</g></g>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="280" y="96" fill="#BA2029" font-size="15" letter-spacing="3">INDEPENDENT · COMMUNITY PREVIEW</text>
+<text x="277" y="160" fill="#392225" font-size="58" font-weight="700">Lazada MCP</text>
+<text x="280" y="205" fill="#644A4D" font-size="25">Your groceries. Your choices. Your final say.</text>
+<text x="280" y="246" fill="#BA2029" font-size="17">Codex / ChatGPT · Claude · Grok (testing)</text>
+</g></svg>

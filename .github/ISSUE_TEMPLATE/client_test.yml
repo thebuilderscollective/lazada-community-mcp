@@ -1,0 +1,30 @@
+name: Client smoke-test report
+description: Share precisely what worked, failed, or was blocked in a real client.
+title: "[Client test] "
+body:
+  - type: input
+    id: environment
+    attributes:
+      label: Client, versions, and date
+      description: Client name/version, plugin version or commit, OS, browser, UTC timestamp.
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Outcome
+      options: [Passed within the scope below, Partial verification, Failed, Blocked]
+    validations:
+      required: true
+  - type: textarea
+    id: coverage
+    attributes:
+      label: What did you actually test?
+      description: "For example: installation, visible sign-in, session reuse, shortlist, missing-preference questions, or picker rendering. List what remains untested."
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence and blockers
+      description: Tool names/results, whether the cart stayed unchanged, and any limitation. No cookies, personal information, or raw screenshots.

@@ -1,0 +1,40 @@
+name: Something stopped working
+description: Report a setup, browser, or shopping issue without exposing your account.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Please do not attach cookies, tokens, browser profiles, full cart/order dumps, addresses, or unredacted screenshots. Never place an order to reproduce a bug."
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      options: [Codex, Claude Code, Claude Desktop, Grok, ChatGPT Work cloud, Other MCP client]
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Versions and environment
+      description: Plugin/client version, OS, browser, and when you last tried (include timezone).
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: What happened?
+      description: Steps, expected behavior, actual behavior, and a sanitized error or failing check name.
+    validations:
+      required: true
+  - type: textarea
+    id: cart
+    attributes:
+      label: Cart state
+      description: Was the cart changed? If so, was it restored? No item/address details needed.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Before submitting
+      options:
+        - label: I removed account information and authentication material from this report.
+          required: true

@@ -1,0 +1,38 @@
+{
+  "name": "lazada-mcp",
+  "version": "1.1.0",
+  "description": "Safely shop RedMart groceries through a local Lazada Singapore MCP server.",
+  "author": {
+    "name": "lazada-mcp contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "lazada",
+    "redmart",
+    "groceries",
+    "shopping",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Lazada RedMart",
+    "shortDescription": "Search RedMart and manage checkout with approval safeguards",
+    "longDescription": "Runs lazada-mcp locally for the user's own Lazada Singapore account. Search products, inspect or update the cart, choose delivery details, review checkout, and place an order only after a fresh user-approved review.",
+    "developerName": "lazada-mcp contributors",
+    "category": "Shopping",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Search RedMart for oat milk, cheapest first.",
+      "Show what is currently in my Lazada cart.",
+      "Review my selected items without ordering."
+    ],
+    "brandColor": "#E52D35",
+    "composerIcon": "./docs/assets/logo.png",
+    "logo": "./docs/assets/logo.png"
+  }
+}
