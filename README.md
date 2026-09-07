@@ -7,11 +7,12 @@ Find your usuals. Compare a few good choices. Approve the basket before buying.<
 
 ## 1. Codex / ChatGPT
 
-With Node.js 22+, Chrome, and the Codex CLI installed, paste one command into your terminal:
+**Ask your Codex assistant to install it for you:**
 
-```bash
-curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- codex
-```
+> Install Lazada community MCP with this, connect it to Codex, and tell me when to sign in: `curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- codex`
+
+The assistant needs command execution on the computer where Codex runs. The current installer requires
+Node.js 22+, Chrome, and the Codex CLI there; ask the assistant to check these first. You don't need to type the command in Terminal yourself.
 
 The installer downloads and verifies the release, then connects Lazada to Codex. Source setup also installs the shopping skill so grocery requests can discover the MCP before using a browser. The published 1.1.3 installer predates that addition.
 
@@ -21,38 +22,52 @@ Already installed through the Codex marketplace? Update that plugin instead of a
 
 ## 2. Claude
 
-**Claude Desktop on Mac — paste this into Terminal:**
+**Claude Desktop on Mac — download, open, install:**
 
-```bash
-curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop
-```
+[Download the latest Desktop bundle →](https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/lazada-mcp.mcpb)
 
-It downloads the verified bundle and opens Claude's installer. Click **Install**, open a new chat, and say
-**“Connect Lazada.”** No Node.js, cloning, or build commands needed for this Desktop bundle. Chrome is required.
-[Prefer clicking a download? Get the Desktop bundle →](https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/lazada-mcp.mcpb)
+Open the newly downloaded `.mcpb` file and click **Install** in Claude. Open a new chat and say
+**“Connect Lazada.”** Sign in in the browser when prompted. No Terminal, separate Node.js installation,
+or Claude Code required. Chrome is required.
+
+If you have an assistant with command execution on the same Mac, you can instead ask it:
+
+> Install Lazada community MCP for Claude Desktop with this and open the installation dialog: `curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-desktop`
 
 If you already have a local `lazada` connection, follow the [upgrade guide](SETUP.md#claude-desktop-chat) to avoid duplicates.
 
-**Claude Code** (Node.js 22+, Chrome, and the Claude CLI required):
+**Claude Code — ask your assistant:**
 
-```bash
-curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-code
-```
+> Install Lazada community MCP with this, connect it to Claude Code, and tell me when to sign in: `curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- claude-code`
 
-Desktop and Code have separate registrations; both share the same login and memory on your Mac.
+Node.js 22+, Chrome, and the Claude CLI are required on that computer. Desktop and Code have separate
+registrations; both share the same login and memory on your Mac.
 
 ## 3. Grok — testing 🧪
 
-Ask your bot to run this on its shared computer and register the printed configuration using its existing
-host-browser settings:
+**Ask your Grok bot:**
 
-```bash
-curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- grok
-```
+> Install Lazada community MCP with this, then register it using host-browser settings and tell me when to sign in: `curl -fsSL https://github.com/thebuilderscollective/lazada-community-mcp/releases/latest/download/install.sh | sh -s -- grok`
 
-Grok uses its own computer's session. This command installs the runtime and prints configuration;
-the bot must register it with Grok. Fresh-install and visual comparison verification are pending.
+When the bot says login is ready, open **its desktop/browser** and sign into Lazada/RedMart once.
+Enter passwords and verification codes directly in that browser.
+
+Then ask:
+
+> What's in my RedMart cart?
+
+> Search RedMart for oat milk, show 3 options with images, don't change the cart.
+
+The bot needs command execution and MCP registration access on its computer. This command installs
+the runtime and prints configuration; the bot must register it using the host's actual browser settings.
+**Grok's session lives on Grok's computer, not in your Mac's Chrome.** Image display depends on the client.
+Fresh-install and visual comparison verification are pending.
 [Shared-computer guide →](SETUP.md#grok-bots-shared-computer)
+
+**One installer, four targets:** `codex` · `claude-code` · `claude-desktop` · `grok`.
+Swap the last word for the app you want to connect. Command-line targets need Node.js 22+ and Chrome
+on the execution computer, on macOS or Linux; the Claude Desktop bundle is macOS-only and includes Node.js.
+Grok also needs its host-browser integration. This is a community MIT preview, not official Lazada software.
 
 <details><summary>Requirements and downloads</summary>
 
@@ -65,6 +80,14 @@ Command-line setup needs Node.js 22+ and Chrome. Fresh clones can use `node scri
 </details>
 
 ## Try it
+
+After sign-in, these read-only checks work as starting prompts in any connected client:
+
+> What's in my RedMart cart?
+
+> Search RedMart for oat milk, show 3 options with images, don't change the cart.
+
+For a comparison with your purchase history:
 
 > **You:** “Compare oat milk with my usual purchases. Show three choices and any multi-buy deal. Don't change my cart.”
 >
@@ -137,7 +160,16 @@ Run `npm run smoke -- --live` while shopping is idle to refresh the dated report
 
 ## Build with us
 
-A community project from [The Builders Collective](https://github.com/thebuilderscollective).
-
 Confusing setup steps, reproducible bugs, and real client test reports all help.
 [Contributing](CONTRIBUTING.md) · [Testing](docs/TESTING.md) · [Verified site findings](docs/MAINTENANCE.md) · [Architecture](docs/CONSOLIDATION.md)
+
+---
+
+Created by **Rajat Goyal** and **[The Builder Course community](https://github.com/thebuilderscollective)**.
+[Connect with Rajat on X](https://x.com/profile/rajat-rg18).
+
+If you use or build on this work, we'd appreciate a credit to Rajat and The Builder Course community,
+with a link to [this repository](https://github.com/thebuilderscollective/lazada-community-mcp).
+This is a friendly request, not an additional license condition. The [MIT license](LICENSE) requires
+retaining the copyright and permission notice in copies or substantial portions of the software;
+it does not require a public shout-out or backlink.
